@@ -15,7 +15,7 @@ class Deck
   def create_deck
       FACES.each do |face|
         if face.class == Integer
-          value = face
+          value = face.to_i
         elsif face == "A"
           value = 11
         else

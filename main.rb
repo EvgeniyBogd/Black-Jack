@@ -11,39 +11,73 @@ class Main
     3. Открыть карты.
   "
 
-  def start_game
+  def pre_game
     puts "Начнем игру!"
+    sleep(1)
     puts "Введите свое имя"
-    name = gets.chomp.to_s
-    player = Player.new(name)
-    dealer = Dealer.new
-    @game = Game.new(player,dealer)
-    puts "Делаем ставку"
+    @name = gets.chomp.to_s
+    @player = Player.new(@name)
+    @dealer = Dealer.new
+    @game = Game.new(@player,@dealer)
+    start_game
+  end
+
+  def start_game
+    puts "Делаем ставки..."
     @game.bets
+    sleep(1)
     puts "В банке #{@game.bank}"
-    puts "Раздаем карты"
+    sleep(1)
+    puts "Раздаем карты..."
     @game.deal_cards
+    sleep(1)
     puts "Карты диллера **"
-    puts "Карты игрока - #{player.hand_card}"
-    @game.cards_value
-    puts "Ваши очки - #{player.hand_value}"
+    sleep(1)
+    puts "Карты игрока - #{@player.hand_card}"
+    sleep(1)
+    puts "Ваши очки - #{@player.hand_value}"
     action
   end
 
   def action
-    puts MENU
-    action = gets.chomp.to_i
-    case action
-    when 1
-      @game.dealer_action
-    when 2
-      @game.player_action
-      raise " Карт может быть только 3"
-    when 3
-      puts "#{dealer.show_hand_card}"
-      puts "#{player.show_hand_card}"
-    end
+    loop do
+      puts MENU
+      action = gets.chomp.to_i
+      case action
+      when 1
+        @game.dealer_action
+      when 2
+        @game.player_action
+        puts "#{@player.hand_card}"
+        puts "Ваши очки - #{@player.hand_value}"
+      when 3
+        puts "#{@dealer.hand_card}"
+        puts "#{@player.hand_card}"
+      end
+      break if action == 3
+      end
+      puts "Определяем победителя"
+      sleep(1)
+      puts "Карты игрока - #{@player.hand_card}"
+      puts "Карты диллера #{@dealer.hand_card}"
+      sleep(1)
+      @game.winner_game
+      puts "Распределяем призовые"
+      sleep(1)
+      @game.take_bank
+      puts "Игрок #{@player.bankroll}"
+      puts "Диллер #{@dealer.bankroll}"
+      sleep(1)
+      puts "Играем еще?(y/n)"
+      answer = gets.chomp.downcase.to_s
+      if answer == "y"
+        self.start_game
+      else
+        exit
+      end
   end
 
+
+
 end
-Main.new.start_game
+Main.new.pre_game

@@ -3,7 +3,7 @@ require_relative 'card'
 
 class User
 
-  attr_accessor :bankroll, :hand, :bet
+  attr_accessor :bankroll, :hand, :bet, :name
   attr_reader :hand_value
 
   def initialize(name)
@@ -15,18 +15,18 @@ class User
   end
 
   def take_card!(deck)
-    hand << deck.cards.shift
+    @hand << deck.cards.shift
   end
 
   def value_hand
-    @hand.each do |card|
+    @hand.map.each do |card|
       if card.face == "A" && @hand_value > 10
         @hand_value += 1
       else
         @hand_value += card.value
       end
-        @hand_value
-      end
+    end
+    @hand_value
   end
 
   def add_to_bank
