@@ -97,4 +97,12 @@ class Game
     dealer.hand = []
     @deck.cards.shuffle!
   end
+
+  def three_card
+    if player.hand.size == 3 && dealer.hand.size == 3
+      true
+    else
+      false
+    end
+  end
 end

@@ -56,7 +56,7 @@ class Main
         puts "#{@dealer.hand_card}"
         puts "#{@player.hand_card}"
       end
-      break if action == 3
+      break if action == 3 || @game.three_card == true
       end
       puts "Определяем победителя"
       sleep(1)
