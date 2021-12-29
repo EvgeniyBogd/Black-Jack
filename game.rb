@@ -59,6 +59,8 @@ class Game
       @winner = "player"
     elsif player.hand_value == dealer.hand_value
       @winner = "nobody"
+    elsif player.hand_value > 21 && dealer.hand_value > 21
+      @winner = "nobody"
     else
       @winner = "dealer"
     end
@@ -86,5 +88,13 @@ class Game
     when "dealer"
         dealer.bankroll += bank
     end
+  end
+
+  def reset
+    @deck.cards += player.hand
+    @deck.cards += dealer.hand
+    player.hand = []
+    dealer.hand = []
+    @deck.cards.shuffle!
   end
 end

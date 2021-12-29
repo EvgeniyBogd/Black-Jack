@@ -19,6 +19,7 @@ class User
   end
 
   def value_hand
+    @hand_value = 0
     @hand.map.each do |card|
       if card.face == "A" && @hand_value > 10
         @hand_value += 1

@@ -51,6 +51,8 @@ class Main
         puts "#{@player.hand_card}"
         puts "Ваши очки - #{@player.hand_value}"
       when 3
+        @game.dealer_action
+        sleep(1)
         puts "#{@dealer.hand_card}"
         puts "#{@player.hand_card}"
       end
@@ -71,6 +73,7 @@ class Main
       puts "Играем еще?(y/n)"
       answer = gets.chomp.downcase.to_s
       if answer == "y"
+        @game.reset
         self.start_game
       else
         exit
