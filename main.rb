@@ -5,12 +5,6 @@ require_relative 'game'
 
 class Main
 
-  MENU  = "
-    1. Пропустить ход.
-    2. Добавить карту (максимум 3 карты).
-    3. Открыть карты.
-  "
-
   def pre_game
     puts "Начнем игру!"
     sleep(1)
@@ -41,7 +35,6 @@ class Main
   end
 
   def action
-    loop do
       self.case_action
       puts "Определяем победителя"
       sleep(1)
@@ -61,11 +54,16 @@ class Main
   end
 
   def case_action
-    puts MENU
-    action = gets.chomp.to_i
-    case action
+    loop do
+    @step = 0
+    puts "1. Пропустить ход" if @step < 2
+    puts "2. Взять карту" if @player.hand.size < 3
+    puts "3. Открыть карты "
+    @action = gets.chomp.to_i
+    case @action
     when 1
       @game.dealer_action
+      @step +=1
     when 2
       @game.player_action
       @player.hand_card
@@ -75,6 +73,9 @@ class Main
       sleep(1)
       @dealer.hand_card
       @player.hand_card
+    end
+    break if  @action == 3 || @player.hand.size == 3 &&
+      @dealer.hand.size == 3
     end
   end
 
