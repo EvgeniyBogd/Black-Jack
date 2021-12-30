@@ -33,7 +33,8 @@ class Main
     sleep(1)
     puts "Карты диллера **"
     sleep(1)
-    puts "Карты игрока - #{@player.hand_card}"
+    puts "Карты игрока:"
+    @player.hand_card
     sleep(1)
     puts "Ваши очки - #{@player.hand_value}"
     action
@@ -41,27 +42,13 @@ class Main
 
   def action
     loop do
-      puts MENU
-      action = gets.chomp.to_i
-      case action
-      when 1
-        @game.dealer_action
-      when 2
-        @game.player_action
-        puts "#{@player.hand_card}"
-        puts "Ваши очки - #{@player.hand_value}"
-      when 3
-        @game.dealer_action
-        sleep(1)
-        puts "#{@dealer.hand_card}"
-        puts "#{@player.hand_card}"
-      end
-      break if action == 3 || @game.three_card == true
-      end
+      self.case_action
       puts "Определяем победителя"
       sleep(1)
-      puts "Карты игрока - #{@player.hand_card}"
-      puts "Карты диллера #{@dealer.hand_card}"
+      puts "Карты игрока:"
+      @player.hand_card
+      puts "Карты диллера:"
+      @dealer.hand_card
       sleep(1)
       @game.winner_game
       puts "Распределяем призовые"
@@ -70,14 +57,36 @@ class Main
       puts "Игрок #{@player.bankroll}"
       puts "Диллер #{@dealer.bankroll}"
       sleep(1)
-      puts "Играем еще?(y/n)"
-      answer = gets.chomp.downcase.to_s
-      if answer == "y"
-        @game.reset
-        self.start_game
-      else
-        exit
-      end
+      self.continue
+  end
+
+  def case_action
+    puts MENU
+    action = gets.chomp.to_i
+    case action
+    when 1
+      @game.dealer_action
+    when 2
+      @game.player_action
+      @player.hand_card
+      puts "Ваши очки - #{@player.hand_value}"
+    when 3
+      @game.dealer_action
+      sleep(1)
+      @dealer.hand_card
+      @player.hand_card
+    end
+  end
+
+  def continue
+    puts "Играем еще?(y/n)"
+    answer = gets.chomp.downcase.to_s
+    if answer == "y"
+      @game.reset
+      self.start_game
+    else
+      exit
+    end
   end
 
 
